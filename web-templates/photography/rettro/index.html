@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rettro - Demo Viewer</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background: #f4f4f4;
+  }
+  .navbar-brand img {
+    height: 32px;
+    margin-right: 0.5rem;
+  }
+  .iframe-container {
+    background: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 112px);
+  }
+  iframe {
+    border: none;
+    min-height: 100%;
+  }
+  .toolbar {
+    background: #343a40;
+    padding: 0.5rem 1rem;
+  }
+  .toolbar .btn {
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="http://portal.grintbyte.com/themes/tide/assets/img/logo-dark.png" alt="Logo">
+      <span></span>
+    </a>
+    <a class="btn btn-outline-light btn-sm" href="/index.html" role="button">Back</a>
+  </div>
+</nav>
+
+<div class="toolbar d-flex flex-wrap align-items-center">
+  <div class="btn-group me-auto" role="group" aria-label="Device Viewport">
+    <button type="button" class="btn btn-secondary" onclick="setViewport('desktop')">Desktop</button>
+    <button type="button" class="btn btn-secondary" onclick="setViewport('tablet')">Tablet</button>
+    <button type="button" class="btn btn-secondary" onclick="setViewport('tablet-portrait')">Tablet (Portrait)</button>
+    <button type="button" class="btn btn-secondary" onclick="setViewport('mobile')">Mobile</button>
+  </div>
+  <div class="btn-group" role="group" aria-label="Social">
+    
+    <a href="/downloads/rettro.zip" class="btn btn-danger" role="button" target="_blank">Download</a>
+  </div>
+</div>
+
+<div class="iframe-container">
+  <iframe id="demoFrame" src="src/index.html"></iframe>
+</div>
+
+<script>
+  // Set default viewport to Desktop
+  const iframe = document.getElementById('demoFrame');
+  iframe.style.width = '100%';
+  iframe.style.maxWidth = '100%';
+
+  function setViewport(device) {
+    if (device === 'desktop') {
+      iframe.style.width = '100%';
+      iframe.style.maxWidth = '100%';
+    } else if (device === 'tablet') {
+      iframe.style.width = '1024px';
+    } else if (device === 'tablet-portrait') {
+      iframe.style.width = '768px';
+    } else if (device === 'mobile') {
+      iframe.style.width = '400px';
+    }
+  }
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
