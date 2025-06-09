@@ -19,6 +19,7 @@
     justify-content: center;
     align-items: center;
     height: calc(100vh - 112px);
+    transition: all 0.3s ease;
   }
   iframe {
     border: none;
@@ -32,40 +33,84 @@
     margin-right: 0.4rem;
     margin-bottom: 0.4rem;
   }
+  .navbar {
+    background-color: #1f2993 ;
+  }
+
+  /* Fullscreen iframe mode */
+  .fullscreen-iframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999;
+  }
+  .hidden {
+    display: none !important;
+  }
+
+  /* Tombol floating exit fullscreen */
+  #floatingExpandBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+  }
+
+  /* Tombol expand di navbar */
+  .expand-btn-navbar {
+    margin-left: auto;
+  }
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="http://portal.grintbyte.com/themes/tide/assets/img/logo-dark.png" alt="Logo">
       <span></span>
     </a>
-    <a class="btn btn-outline-light btn-sm" href="/index.html" role="button">Back</a>
+    <a class="btn btn-outline-light btn-sm me-2" href="/index.html" role="button">Back</a>
+    <button type="button" class="btn btn-outline-light btn-sm expand-btn-navbar d-flex align-items-center" onclick="toggleFullscreen()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 1v5h1V2h4V1H1zm13 0h-5v1h4v4h1V1zM1 15v-5H0v6h6v-1H1zm13 0v-4h-1v4h-4v1h5v-1z"/>
+      </svg>
+      <span class="ms-1">Expand</span>
+    </button>
   </div>
 </nav>
 
-<div class="toolbar d-flex flex-wrap align-items-center">
+<div class="toolbar d-flex flex-wrap align-items-center" id="toolbar">
   <div class="btn-group me-auto" role="group" aria-label="Device Viewport">
     <button type="button" class="btn btn-secondary" onclick="setViewport('desktop')">Desktop</button>
     <button type="button" class="btn btn-secondary" onclick="setViewport('tablet')">Tablet</button>
     <button type="button" class="btn btn-secondary" onclick="setViewport('tablet-portrait')">Tablet (Portrait)</button>
     <button type="button" class="btn btn-secondary" onclick="setViewport('mobile')">Mobile</button>
   </div>
-  <div class="btn-group" role="group" aria-label="Social">
-    
-    <a href="/downloads/foodwagon.zip" class="btn btn-danger" role="button" target="_blank">Download</a>
+  <div class="btn-group ms-2" role="group" aria-label="Buy">
+    <a href="https://portal.grintbyte.com/orderbutton" class="btn btn-danger" role="button" target="_blank">Buy Now</a>
   </div>
 </div>
 
-<div class="iframe-container">
+<div class="iframe-container" id="iframeContainer">
   <iframe id="demoFrame" src="src/index.html"></iframe>
 </div>
 
+<!-- Tombol floating untuk exit fullscreen -->
+<button type="button" class="btn btn-primary hidden" id="floatingExpandBtn" onclick="toggleFullscreen()">
+  Exit Fullscreen
+</button>
+
 <script>
-  // Set default viewport to Desktop
   const iframe = document.getElementById('demoFrame');
+  const iframeContainer = document.getElementById('iframeContainer');
+  const floatingExpandBtn = document.getElementById('floatingExpandBtn');
+  const navbar = document.getElementById('navbar');
+  const toolbar = document.getElementById('toolbar');
+
+  // Set default viewport to Desktop
   iframe.style.width = '100%';
   iframe.style.maxWidth = '100%';
 
@@ -81,8 +126,27 @@
       iframe.style.width = '400px';
     }
   }
-</script>
 
+  let isFullscreen = false;
+
+  function toggleFullscreen() {
+    if (!isFullscreen) {
+      // Masuk fullscreen: sembunyikan navbar & toolbar, iframe fullscreen, tampilkan tombol exit fullscreen
+      navbar.classList.add('hidden');
+      toolbar.classList.add('hidden');
+      iframe.classList.add('fullscreen-iframe');
+      floatingExpandBtn.classList.remove('hidden');
+      isFullscreen = true;
+    } else {
+      // Keluar fullscreen: tampilkan navbar & toolbar, hilangkan iframe fullscreen, sembunyikan tombol exit fullscreen
+      navbar.classList.remove('hidden');
+      toolbar.classList.remove('hidden');
+      iframe.classList.remove('fullscreen-iframe');
+      floatingExpandBtn.classList.add('hidden');
+      isFullscreen = false;
+    }
+  }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
